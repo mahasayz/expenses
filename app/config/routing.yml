@@ -1,0 +1,8 @@
+expense_store:
+    resource: "@ExpenseStoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+expense_site:
+    resource: "@ExpenseSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+

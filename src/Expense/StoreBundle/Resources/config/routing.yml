@@ -1,0 +1,3 @@
+expense_store_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: ExpenseStoreBundle:Default:index }
