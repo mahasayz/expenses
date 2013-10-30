@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/font-awesome/css/social-buttons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/font-awesome/css/font-awesome.min.css') }}" />
+
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('myjs/jquery.js') }}" type="text/javascript"></script>
+    
+	<style type="text/css">
+	  body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        max-width: 352px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+     
+
+	</style>
+</head>
+<body>
+	{% if error %}
+		<div class="alert alert-error">
+		 	<button type="button" class="close" data-dismiss="alert">&times;</button>
+			    <div>{{ error.message }}</div>
+		</div>
+	{% endif %}
+	<div class="container">
+		<form class="form-signin"  action="{{ path('_my_login_check') }}"  method="post" id="login">
+			<h2 class="form-siginin-heading">Please sigin in</h2>
+			<input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{last_username}}">
+			<input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
+			<label class="checkbox">
+				<input type="checkbox" value="remember-me"> Remember me
+			</label>
+			
+			<button class="btn btn-large btn-primary" type="submit">Sign in</button>
+			<button class="btn btn-large btn-facebook" type="button"><i class="fa fa-facebook"></i> | Connect with Facebook</button>
+		</form>
+	</div>
+</body>
+</html>
+
+
+   

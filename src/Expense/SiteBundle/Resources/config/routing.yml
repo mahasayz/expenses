@@ -1,3 +1,19 @@
 expense_site_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: ExpenseSiteBundle:Default:index }
+
+crud_controller:
+  type: annotation
+  resource: "@ExpenseStoreBundle/Controller/CrudController.php"
+  prefix: /crud
+  
+  
+expense_controller:
+  type: annotation
+  resource: "@ExpenseSiteBundle/Controller/ExpenseController.php"
+  
+login_controller:
+  type: annotation
+  resource: "@ExpenseSiteBundle/Controller/LoginController.php"    
+  
+  

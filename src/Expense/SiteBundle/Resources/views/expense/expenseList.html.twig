@@ -1,0 +1,44 @@
+<style type="text/css">
+		.center-horizontal-vertical{
+	    	height:  57px;
+	    	display: table-cell;
+	    	vertical-align:middle;
+	    	width: inherit;
+	    	text-align: center;
+    	}
+    	
+		.prettyprint{
+    		padding: 8px;
+			background-color: #f7f7f9;
+			border: 1px solid #e1e1e8;
+    	}
+    	
+    	.no-space {
+		    margin-left:0;
+		}
+		
+		.min-height{
+			min-height: 62px;
+		}
+		.bottom-margin{
+			margin-bottom: 20px;
+		}
+		.span2{
+			width: 141px;
+		}
+
+</style>
+
+{% for expense in expenses %}
+	<div class="row bottom-margin">
+		<div class="span2">
+			<div class="btn-info center-horizontal-vertical"><h3>{{ app.user.currencySymbol }} {{ expense.amount }}</h3></div>
+			<div class="btn-inverse text-center">{{ expense.created |date('j M Y H:i:s') }}</div>	
+		</div>
+		<div class="span9 prettyprint no-space min-height">
+			{{ expense.description }}
+		</div>
+	</div>
+{% endfor %}
+
+
