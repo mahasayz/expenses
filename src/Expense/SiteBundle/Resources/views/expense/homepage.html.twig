@@ -9,6 +9,12 @@
     <script src="{{ asset('bootstrap/js/bootstrap.js') }}" type="text/javascript"></script>
     <style type="text/css">
     </style>
+    
+    <script src="{{ asset('morris/raphael-min.js') }}"></script>
+	<script src="{{ asset('morris/morris.js') }}"></script>
+	<script src="{{ asset('morris/lib/prettify.js') }}"></script>
+	<link rel="stylesheet" href="{{ asset('morris/lib/prettify.css') }}">
+	<link rel="stylesheet" href="{{ asset('morris/morris.css') }}">
 </head>
 <body style="padding-top: 60px;">
 <!-- top header needs in seperate file -->
@@ -45,6 +51,37 @@
 		'ExpenseSiteBundle:Expense:totalExpenseModule.html.twig'
 	) }}
 
+	<div id="graph"></div>
+	<script type="text/javascript">
+	/* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
+	var day_data = [
+	  {"period": "2012-10-01", "licensed": 3407, "sorned": 660},
+	  {"period": "2012-09-30", "licensed": 3351, "sorned": 629},
+	  {"period": "2012-09-29", "licensed": 3269, "sorned": 618},
+	  {"period": "2012-09-20", "licensed": 3246, "sorned": 661},
+	  {"period": "2012-09-19", "licensed": 3257, "sorned": 667},
+	  {"period": "2012-09-18", "licensed": 3248, "sorned": 627},
+	  {"period": "2012-09-17", "licensed": 3171, "sorned": 660},
+	  {"period": "2012-09-16", "licensed": 3171, "sorned": 676},
+	  {"period": "2012-09-15", "licensed": 3201, "sorned": 656},
+	  {"period": "2012-09-10", "licensed": 3215, "sorned": 622}
+	];
+
+	{% autoescape false %}
+		var day_data = {{ graphData }};
+	{% endautoescape %}
+	Morris.Line({
+	  element: 'graph',
+	  data: day_data,
+	  xkey: 'period',
+	  ykeys: ['amount'],
+	  labels: ['Amount'],
+	  parseTime: false
+	}).on('click', function(){
+		alert("Hi! I am Morris.");
+	});
+	</script>
+	
 	<fieldset>
 	<!-- <form class="form-inline" method="POST"> -->
 	{{ form_start(expense, {'method': 'post', 'attr' : { 'class': 'form-inline' }  }) }}
