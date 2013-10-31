@@ -104,7 +104,11 @@ class ExpenseController extends Controller{
 			$expensesCount = $em->createQuery($dql)
 						->setParameter(1, $loggedInUser->getId())
 						->getResult();
-			$totalPagerCount = ceil(count($expensesCount) /Utils::$paginationLimit);
+			
+			if(count($expensesCount) == 0)
+				$totalPagerCount = 1;
+			else
+				$totalPagerCount = ceil(count($expensesCount) /Utils::$paginationLimit);
 			
 		/* expense counter ends */
 		
@@ -177,12 +181,13 @@ class ExpenseController extends Controller{
 		$convertedValue = Utils::currencyConverter($amount, $from, $to);
 		
 		if($convertedValue != null){
-			return new Response("$currencySymbol $convertedValue");
+			return new Response("$currencySymbol ". number_format($convertedValue, 2, '.', ''));
 		}else{
 			return new Response("Not supported");
 		}
 		
 	}
+	
 	
 	
 }
