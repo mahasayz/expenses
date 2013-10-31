@@ -14,17 +14,39 @@ use Expense\StoreBundle\POJO\GraphData;
 
 class ExpenseController extends Controller{
 	
-	public function getGraphData($user){
-		$conn = $this->get('database_connection');
-		$result = $conn->fetchAll("SELECT SUM(amount) AS amount, MONTHNAME(created) AS r FROM expense WHERE user_id = $user GROUP BY MONTH(created)");
+	/**
+	 * @Route("/graph", name="graph_data")
+	 */
+	public function getGraphData(Request $request){
+		$user = $request->request->get('user');
+			$type = $request->request->get('type');
+			$month = $request->request->get('month');
+		$res = $this->getGData($user, $type, $month);
+		
+		$response = new Response($res);
+		$response->headers->set('Content-Type', 'application/json');
+		
+		return $response;
+	}
 	
+	public function getGData($user, $type=NULL, $month=NULL){
+		if (!isset($type))
+			$type = "monthly";
+		$conn = $this->get('database_connection');
+		if ($type == "monthly")
+			$result = $conn->fetchAll("SELECT SUM(amount) AS amount, MONTHNAME(created) AS r FROM expense WHERE user_id = 1 GROUP BY MONTH(created)");
+		else
+			$result = $conn->fetchAll("SELECT SUM(amount) AS amount, (WEEK(created) - WEEK(DATE_SUB(created, INTERVAL DAYOFMONTH(created)-1 DAY))+1) AS r FROM expense WHERE user_id=1 AND MONTHNAME(created)='$month' GROUP BY WEEKOFYEAR(created)");
 		foreach ($result as $row){
 			$rec = new GraphData();
 			$rec->setPeriod($row['r']);
 			$rec->setAmount($row['amount']);
+			$rec->setType($type);
 			$arr[] = $rec;
 		}
-		$json = json_encode($arr);
+		$json = "";
+		if (isset($arr))
+			$json = json_encode($arr);
 		return $json;
 	}
 	
@@ -104,7 +126,7 @@ class ExpenseController extends Controller{
 						  "monthlyExpense" => $monthlyExpense,
 						  "ePage" => $ePage,
 						  "totalPagerCount" => $totalPagerCount,	
-						  "graphData" => $this->getGraphData("1"),
+						  "graphData" => $this->getGData("1"),
 					)
 				
 		      );

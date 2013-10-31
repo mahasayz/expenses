@@ -51,34 +51,71 @@
 		'ExpenseSiteBundle:Expense:totalExpenseModule.html.twig'
 	) }}
 
+	<div class="btn-group" id="chartgrp" data-toggle="buttons-radio">
+    	<button class="btn active">Monthly</button>
+    	<button class="btn">Weekly</button>
+	</div>
+	
 	<div id="graph"></div>
 	<script type="text/javascript">
 	/* data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type */
-	var day_data = [
-	  {"period": "2012-10-01", "licensed": 3407, "sorned": 660},
-	  {"period": "2012-09-30", "licensed": 3351, "sorned": 629},
-	  {"period": "2012-09-29", "licensed": 3269, "sorned": 618},
-	  {"period": "2012-09-20", "licensed": 3246, "sorned": 661},
-	  {"period": "2012-09-19", "licensed": 3257, "sorned": 667},
-	  {"period": "2012-09-18", "licensed": 3248, "sorned": 627},
-	  {"period": "2012-09-17", "licensed": 3171, "sorned": 660},
-	  {"period": "2012-09-16", "licensed": 3171, "sorned": 676},
-	  {"period": "2012-09-15", "licensed": 3201, "sorned": 656},
-	  {"period": "2012-09-10", "licensed": 3215, "sorned": 622}
+	var day_data1 = [
+	  {"period": "2012-10-01", "amount": "50", "type": "monthly"},
+	  {"period": "2012-09-30", "amount": "100", "type": "monthly"}
 	];
 
+	var selected = "monthly";
+	
 	{% autoescape false %}
 		var day_data = {{ graphData }};
 	{% endautoescape %}
-	Morris.Line({
+	var chart = Morris.Line({
 	  element: 'graph',
 	  data: day_data,
 	  xkey: 'period',
 	  ykeys: ['amount'],
 	  labels: ['Amount'],
 	  parseTime: false
-	}).on('click', function(){
-		alert("Hi! I am Morris.");
+	});
+
+	$("#chartgrp .btn").click(function(){
+		alert($(this).html());
+		if ($(this).html() == 'Monthly'){
+			selected = "monthly";
+			$.ajax({
+				url: "{{ url("graph_data") }}",
+				dataType: "json",
+				data: {'user': "1", 'type': selected },
+				method: 'POST',
+				error: function(data){
+					alert("server error");
+				},
+				success: function(data){
+					chart.setData(data);
+				},
+				
+			});
+		}
+	});
+
+	chart.on('click', function(i, row){
+		$("#chartgrp .btn").button('toggle');
+		if (selected != "weekly"){
+			selected = "weekly";
+			$.ajax({
+				url: "{{ url("graph_data") }}",
+				dataType: "json",
+				data: {'user': "1", 'type': selected, 'month': row.period },
+				method: 'POST',
+				error: function(data){
+					alert("server error");
+				},
+				success: function(data){
+					chart.setData(data);
+				},
+				
+			});
+		}
 	});
 	</script>
 	

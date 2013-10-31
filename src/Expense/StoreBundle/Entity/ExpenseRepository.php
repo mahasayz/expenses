@@ -1,9 +1,10 @@
 <?php
-
 namespace Expense\StoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Expense\SiteBundle\ExpenseSiteBundle;
+use Expense\StoreBundle\ExpenseStoreBundle;
+
 class ExpenseRepository extends EntityRepository{
 	public function getTotalSpendingOf($user, $from, $to){
 		 return $this->getEntityManager()->createQuery(
