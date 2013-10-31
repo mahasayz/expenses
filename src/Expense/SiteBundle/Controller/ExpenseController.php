@@ -139,12 +139,13 @@ class ExpenseController extends Controller{
 		$convertedValue = Utils::currencyConverter($amount, $from, $to);
 		
 		if($convertedValue != null){
-			return new Response("$currencySymbol $convertedValue");
+			return new Response("$currencySymbol ". number_format($convertedValue, 2, '.', ''));
 		}else{
 			return new Response("Not supported");
 		}
 		
 	}
+	
 	
 	
 }
