@@ -67,7 +67,7 @@ class ExpenseController extends Controller{
 			$expensesCount = $em->createQuery($dql)
 						->setParameter(1, $loggedInUser->getId())
 						->getResult();
-			$totalPagerCount = 1 + intval(count($expensesCount) /Utils::$paginationLimit);
+			$totalPagerCount = ceil(count($expensesCount) /Utils::$paginationLimit);
 			
 		/* expense counter ends */
 		
@@ -102,6 +102,11 @@ class ExpenseController extends Controller{
 		$em = $this->getDoctrine()->getManager();
 		$loggedInUser = $this->getUser();
 		
+		$countryOptions = array();
+		foreach(Utils::getCountry() as $key => $value){
+			$countryOptions[$key] = $key . " ($value)";
+		}
+		
 		if($loggedInUser != null){
 			$dql = "Select  e from ExpenseStoreBundle:Expense e join e.user u where u.id=?1 order by e.created desc";
 			
@@ -115,8 +120,30 @@ class ExpenseController extends Controller{
 		
 		return array(
 				"expenses" => $expenses,
+				"countryOptions" => $countryOptions,
 		);
 														
+	}
+	
+	/**
+	 * @Route("/currencyConverter", name="expense_currency_converter")
+	 */
+	public function currencyConverterAction(Request $request){
+		$loggedInUser = $this->getUser();
+		$from = $request->request->get('from');
+		$to = $request->request->get('to');
+		$amount = $request->request->get('amount');
+		
+		$currencySymbol = Utils::getCountry()[$to];
+		
+		$convertedValue = Utils::currencyConverter($amount, $from, $to);
+		
+		if($convertedValue != null){
+			return new Response("$currencySymbol $convertedValue");
+		}else{
+			return new Response("Not supported");
+		}
+		
 	}
 	
 	

@@ -26,8 +26,39 @@
 		.span2{
 			width: 141px;
 		}
+		.larger-font-size{
+			font-size: 20px;
+		}
 
 </style>
+<script type="text/javascript">
+    	$(document).ready(function(){
+   			$("#dollarConversion .input-small").on("change", function(){
+   	   				//alert($(this).val().split(" ")[0] );
+   	   				//alert($(this).siblings("#expenseAmount").val());
+					var countryOptDOM = $(this);
+					 
+   	   				var from = $(this).siblings("#expenseFrom").val();
+   	   				var to = $(this).val().split(" ")[0];
+   	   	   			var amount = countryOptDOM.siblings("#expenseAmount").val();
+
+   	   	   			
+		   	   	  	$.ajax({
+						url: "{{ url("expense_currency_converter") }}",
+						data: {'from': from, 'to': to, 'amount': amount },
+						method: 'POST',
+						error: function(result){
+							alert("server error");
+						},
+						success: function(result){
+							countryOptDOM.siblings("#convertedValue").html(result);
+						},
+						
+					});
+   	   			
+   	   		});
+       });
+</script>
 
 {% for expense in expenses %}
 	<div class="row bottom-margin">
@@ -35,8 +66,19 @@
 			<div class="btn-info center-horizontal-vertical"><h3>{{ app.user.currencySymbol }} {{ expense.amount }}</h3></div>
 			<div class="btn-inverse text-center">{{ expense.created |date('j M Y H:i:s') }}</div>	
 		</div>
-		<div class="span9 prettyprint no-space min-height">
+		<div class="span7 prettyprint no-space min-height">
 			{{ expense.description }}
+		</div>
+		<div class="span2 btn-inverse no-space min-height" id="dollarConversion">
+				<select class="input-small">
+						<option></option>
+						{% for country in countryOptions %}
+							<option>{{ country }}</option>
+					  	{% endfor %}		
+				</select>
+				<input type="hidden" value="{{ expense.amount }}" id="expenseAmount"/>
+				<input type="hidden" value="{{ app.user.countryCode }}" id="expenseFrom"/>
+				<div id="convertedValue" class="text-center larger-font-size"></div>
 		</div>
 	</div>
 {% endfor %}

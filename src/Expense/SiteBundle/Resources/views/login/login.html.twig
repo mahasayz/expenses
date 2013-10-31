@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="{{ asset('bootstrap/font-awesome/css/social-buttons.css') }}" />
     <link rel="stylesheet" href="{{ asset('bootstrap/font-awesome/css/font-awesome.min.css') }}" />
 
-    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('myjs/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
     
 	<style type="text/css">
 	  body {
@@ -40,7 +40,7 @@
 	{% endif %}
 	<div class="container">
 		<form class="form-signin"  action="{{ path('_my_login_check') }}"  method="post" id="login">
-			<h2 class="form-siginin-heading">Please sigin in</h2>
+			<h2 class="form-siginin-heading">Please sigin in <small>or <a href="{{ url('_my_signup') }}"><span class="label label-success">Sign up</span></a></small></h2>
 			<input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{last_username}}">
 			<input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
 			<label class="checkbox">
