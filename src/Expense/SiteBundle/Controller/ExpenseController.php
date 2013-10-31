@@ -10,8 +10,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Expense\StoreBundle\Entity\Expense;
 use Expense\StoreBundle\Utils;
 use Symfony\Component\Intl\NumberFormatter\NumberFormatter;
+use Expense\StoreBundle\POJO\GraphData;
 
 class ExpenseController extends Controller{
+	
+	public function getGraphData($user){
+		$conn = $this->get('database_connection');
+		$result = $conn->fetchAll("SELECT SUM(amount) AS amount, MONTHNAME(created) AS r FROM expense WHERE user_id = $user GROUP BY MONTH(created)");
+	
+		foreach ($result as $row){
+			$rec = new GraphData();
+			$rec->setPeriod($row['r']);
+			$rec->setAmount($row['amount']);
+			$arr[] = $rec;
+		}
+		$json = json_encode($arr);
+		return $json;
+	}
 	
 	/**
 	 * @Route("/homepage/{ePage}", name="expense_homepage")
@@ -89,6 +104,7 @@ class ExpenseController extends Controller{
 						  "monthlyExpense" => $monthlyExpense,
 						  "ePage" => $ePage,
 						  "totalPagerCount" => $totalPagerCount,	
+						  "graphData" => $this->getGraphData("1"),
 					)
 				
 		      );
