@@ -82,7 +82,11 @@ class ExpenseController extends Controller{
 			$expensesCount = $em->createQuery($dql)
 						->setParameter(1, $loggedInUser->getId())
 						->getResult();
-			$totalPagerCount = ceil(count($expensesCount) /Utils::$paginationLimit);
+			
+			if(count($expensesCount) == 0)
+				$totalPagerCount = 1;
+			else
+				$totalPagerCount = ceil(count($expensesCount) /Utils::$paginationLimit);
 			
 		/* expense counter ends */
 		
