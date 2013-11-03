@@ -1,0 +1,21 @@
+<legend>Expense: </legend>
+<div class="input-prepend">
+	<span class="add-on">$</span>
+	
+	{{ form_widget(expense.amount, 
+		{ 'attr': {
+						"placeholder" : "Amount",
+						"oninvalid" : "setCustomValidity('Numbers only')",
+						"onchange" : "try{setCustomValidity('')}catch(e){}",
+						
+				  }
+		}
+	) }}
+</div>
+	{{ form_widget(expense.description,
+		{ 'attr': {
+						"placeholder" : "Description"
+				  }
+		}
+	) }}
+<input type="submit" value=" Add " class="btn btn-primary"/>

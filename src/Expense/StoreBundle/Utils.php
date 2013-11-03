@@ -2,7 +2,8 @@
 
 namespace Expense\StoreBundle;
 
-class Utils {
+use Symfony\Component\DependencyInjection\Container;
+class Utils extends Container{
 	public static $paginationLimit = 4;
 	
 	public static function getCountry(){
@@ -28,6 +29,8 @@ class Utils {
 		}
 	
 	}
+	
+	
 }
 
 ?>

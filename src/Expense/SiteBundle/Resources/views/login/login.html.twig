@@ -38,9 +38,17 @@
 			    <div>{{ error.message }}</div>
 		</div>
 	{% endif %}
+	
+	{% for flashMessage in app.session.flashbag.get('success') %}
+		<div class="alert alert-success">
+		 	<button type="button" class="close" data-dismiss="alert">&times;</button>
+			    <div>{{ flashMessage }}</div>
+		</div>
+	{% endfor %}
+	
 	<div class="container">
 		<form class="form-signin"  action="{{ path('_my_login_check') }}"  method="post" id="login">
-			<h2 class="form-siginin-heading">Please sigin in <small>or <a href="{{ url('_my_signup') }}"><span class="label label-success">Sign up</span></a></small></h2>
+			<h2 class="form-siginin-heading">Please sign in <small>or <a href="{{ url('_my_signup') }}"><span class="label label-success">Sign up</span></a></small></h2>
 			<input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{last_username}}">
 			<input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
 			<label class="checkbox">

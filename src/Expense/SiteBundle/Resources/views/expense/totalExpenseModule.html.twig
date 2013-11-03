@@ -2,16 +2,16 @@
 	<div class="span4 input-prepend">
 		<span class="add-on">Today</span>
 		<span class="add-on">{{ app.user.currencySymbol }}</span>
-		<input type="text" value="{{ todayExpense }}">
+		<input type="text" value="{{ todayExpense| default('0.00') }}">
 	</div>
 	<div class="span4 input-prepend">
 		<span class="add-on">Weekly</span>
 		<span class="add-on">{{ app.user.currencySymbol }}</span>
-		<input type="text" value="{{ weeklyExpense }}">	
+		<input type="text" value="{{ weeklyExpense| default('0.00') }}">	
 	</div>
 	<div class="span4 input-prepend">
 		<span class="add-on">Monthly</span>
 		<span class="add-on">{{ app.user.currencySymbol }}</span>
-		<input type="text" value="{{ monthlyExpense }}">
+		<input type="text" value="{{ monthlyExpense| default('0.00') }}">
 	</div>
 </div>

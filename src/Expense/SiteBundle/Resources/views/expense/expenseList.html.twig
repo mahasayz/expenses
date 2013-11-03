@@ -57,19 +57,24 @@
 					});
    	   			
    	   		});
+
+			$("#showConversion").click(function(){
+				$("#dollarConversion").toggle("slide"); 
+			});
+   	   		
        });
 </script>
 
 {% for expense in expenses %}
 	<div class="row bottom-margin">
 		<div class="span2">
-			<div class="btn-info center-horizontal-vertical"><h3>{{ app.user.currencySymbol }} {{ expense.amount }}</h3></div>
+			<div class="btn-info center-horizontal-vertical"><h3>{{ app.user.currencySymbol }} {{ expense.amount |number_format(2, '.', ',') }}</h3></div>
 			<div class="btn-inverse text-center">{{ expense.created |date('j M Y H:i:s') }}</div>	
 		</div>
 		<div class="span7 prettyprint no-space min-height">
 			{{ expense.description }}
 		</div>
-		<div class="span2 btn-inverse no-space min-height" id="dollarConversion">
+		<div class="span2 btn-inverse no-space min-height" id="dollarConversion" >
 				<select class="input-small">
 						<option></option>
 						{% for country in countryOptions %}

@@ -18,32 +18,9 @@
 </head>
 <body style="padding-top: 60px;">
 <!-- top header needs in seperate file -->
-<div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Expense</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-            </ul>
-            {% if app.user %}
-            	<p class="navbar-text pull-right">Signed in as <a href="#" class="navbar-link"><i class="icon-user icon-white"></i>{{app.user.username }} </a> | <a href="{{ path('_my_logout') }}" class="navbar-link">Signout</a></p>
-            {% else %}
-	            <form class="navbar-form pull-right">
-	              <input class="span2" type="text" placeholder="Username">
-	              <input class="span2" type="password" placeholder="Password">
-	              <button type="submit" class="btn">Sign in</button>
-	            </form>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-</div>
+	{{ include(
+		'ExpenseSiteBundle:Partial:header.html.twig'
+	) }}
 <!-- end of top header -->
 
 <div class="container">
@@ -123,23 +100,9 @@
 	<!-- <form class="form-inline" method="POST"> -->
 	{{ form_start(expense, {'method': 'post', 'attr' : { 'class': 'form-inline' }  }) }}
  		{{ form_errors(expense) }}
-		<legend>Expense: </legend>
-		<div class="input-prepend">
-			<span class="add-on">{{ app.user.currencySymbol }}</span>
-			{{ form_widget(expense.amount, 
-				{ 'attr': {
-								"placeholder" : "Amount",
-						  }
-				}
+			{{ include(
+				'ExpenseSiteBundle:Expense:expenseFormPartial.html.twig'
 			) }}
-		</div>
-			{{ form_widget(expense.description,
-				{ 'attr': {
-								"placeholder" : "Description"
-						  }
-				}
-			) }}
-		<input type="submit" value=" Add " class="btn btn-primary"/>
 	{{ form_end(expense) }}
 	<!-- </form> -->
 	</fieldset>

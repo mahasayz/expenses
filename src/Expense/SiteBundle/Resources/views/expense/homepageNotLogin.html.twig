@@ -24,28 +24,9 @@
 <body style="padding-top: 60px;">
 
 <!-- top header needs in seperate file -->
-<div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Expense</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-            </ul>
-	            <form class="navbar-form pull-right" action="{{ path('_my_login_check') }}"  method="post" id="login">
-	              <input class="span2" type="text" placeholder="Username" id="username" name="_username">
-	              <input class="span2" type="password" placeholder="Password" id="password" name="_password">
-	              <button type="submit" class="btn">Sign in</button>
-	            </form>
-          </div>
-        </div>
-      </div>
-</div>
+	{{ include(
+		'ExpenseSiteBundle:Partial:header.html.twig'
+	) }}
 <!-- end of top header -->
 
 
@@ -58,25 +39,10 @@
 
 	<fieldset>
 	<!-- <form class="form-inline" method="POST"> -->
-	{{ form_start(expense, {'method': 'post', 'attr' : { 'class': 'form-inline' }  }) }}
-		<legend>Expense: </legend>
-		<div class="input-prepend">
-			<span class="add-on">$</span>
-			{{ form_widget(expense.amount, 
-				{ 'attr': {
-								"placeholder" : "Amount"
-								
-						  }
-				}
-			) }}
-		</div>
-			{{ form_widget(expense.description,
-				{ 'attr': {
-								"placeholder" : "Description"
-						  }
-				}
-			) }}
-		<input type="submit" value=" Add " class="btn btn-primary"/>
+	{{ form_start(expense, {'method': 'post','action' : path('_my_login'), 'attr' : { 'class': 'form-inline' }  }) }}
+		{{ include(
+			'ExpenseSiteBundle:Expense:expenseFormPartial.html.twig'
+		) }}
 	{{ form_end(expense) }}
 	<!-- </form> -->
 	</fieldset>

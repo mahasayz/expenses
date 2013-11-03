@@ -97,6 +97,23 @@ class LoginController extends Controller
     			
     		$em->persist($user);
     		$em->flush();
+    		
+    		$this->get('session')->getFlashBag()->add(
+    				'success',
+    				'Account created successfully!'
+    		);
+    		
+    		///send email
+    		/* $message = \Swift_Message::newInstance()
+				    		->setSubject("Account Created")
+				    		->setFrom("alu@alu.com")
+				    		->setTo($user->getUsername())
+				    		->setBody(
+				    				"Thankyou {$user->getFirstName()} your account is created"
+				    		);
+    		$this->get('mailer')->send($message); */
+    		
+    		return $this->redirect($this->generateUrl("_my_login"));
     	}
     	
     		return array(
