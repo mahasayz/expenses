@@ -7,6 +7,9 @@
 						"placeholder" : "Amount",
 						"oninvalid" : "setCustomValidity('Numbers only')",
 						"onchange" : "try{setCustomValidity('')}catch(e){}",
+						"data-toggle" : "tooltip",
+						"data-placement" : "right",
+						"data-original-title" :"Enter Amount. Number only",
 						
 				  }
 		}
@@ -14,7 +17,10 @@
 </div>
 	{{ form_widget(expense.description,
 		{ 'attr': {
-						"placeholder" : "Description"
+						"placeholder" : "Description",
+						"data-toggle" : "tooltip",
+						"data-placement" : "top",
+						"data-original-title" :"Enter purpose of spending",
 				  }
 		}
 	) }}

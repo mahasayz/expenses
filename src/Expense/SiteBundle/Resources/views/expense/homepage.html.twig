@@ -15,6 +15,13 @@
 	<script src="{{ asset('morris/lib/prettify.js') }}"></script>
 	<link rel="stylesheet" href="{{ asset('morris/lib/prettify.css') }}">
 	<link rel="stylesheet" href="{{ asset('morris/morris.css') }}">
+	
+	<script type="text/javascript">
+	$(function(){
+		 $("[data-toggle='tooltip']").tooltip(); 
+	});
+	</script>
+	
 </head>
 <body style="padding-top: 60px;">
 <!-- top header needs in seperate file -->
@@ -56,7 +63,6 @@
 	});
 
 	$("#chartgrp .btn").click(function(){
-		alert($(this).html());
 		if ($(this).html() == 'Monthly'){
 			selected = "monthly";
 			$.ajax({

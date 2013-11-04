@@ -14,9 +14,9 @@
             {% if app.user %}
             	<p class="navbar-text pull-right">Signed in as <a href="#" class="navbar-link"><i class="icon-user icon-white"></i>{{app.user.username }} </a> | <a href="{{ path('_my_logout') }}" class="navbar-link">Signout</a></p>
             {% else %}
-	            <form class="navbar-form pull-right">
-	              <input class="span2" type="text" placeholder="Username">
-	              <input class="span2" type="password" placeholder="Password">
+	            <form class="navbar-form pull-right" action="{{ path('_my_login_check') }}"  method="post" id="login">
+	              <input class="span2" type="text" placeholder="Username" id="username" name="_username">
+	              <input class="span2" type="password" placeholder="Password" id="password" name="_password">
 	              <button type="submit" class="btn">Sign in</button>
 	            </form>
             {% endif %}
