@@ -1,0 +1,26 @@
+{% for expense in expenses %}
+	<div class="row bottom-margin">
+		<div class="span2">
+			<div class="btn-info center-horizontal-vertical"><h3>{{ app.user.currencySymbol }} {{ expense.amount |number_format(2, '.', ',') }}</h3></div>
+			<div class="btn-inverse text-center">{{ expense.created |date('j M Y H:i:s') }}</div>	
+		</div>
+		<div class="span7 prettyprint no-space min-height">
+			{{ expense.description }}
+		</div>
+		<div class="span2 btn-inverse no-space min-height" id="dollarConversion" style="display: none;">
+				<select class="input-small">
+						<option></option>
+						{% for country in countryOptions %}
+							<option>{{ country }}</option>
+					  	{% endfor %}		
+				</select>
+				<input type="hidden" value="{{ expense.amount }}" id="expenseAmount"/>
+				<input type="hidden" value="{{ app.user.countryCode }}" id="expenseFrom"/>
+				<div id="convertedValue" class="text-center larger-font-size"></div>
+		</div>
+		<div class="span0 no-space btn-inverse drag-click" id="showConversion"><h4>></h4></div>
+	</div>
+{% endfor %}
+{% if expenses|length > 0 %}
+<a href="{{ url("expense_showAll_partial", {'page' : nextPage } ) }}" class="jscroll-next">next</a>
+{% endif %}

@@ -1,3 +1,6 @@
+<style type="text/css">
+	.modal { left: 37%; }
+</style>
 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -12,7 +15,7 @@
               <li class="active"><a href="#">Home</a></li>
             </ul>
             {% if app.user %}
-            	<p class="navbar-text pull-right">Signed in as <a href="#" class="navbar-link"><i class="icon-user icon-white"></i>{{app.user.username }} </a> | <a href="{{ path('_my_logout') }}" class="navbar-link">Signout</a></p>
+            	<p class="navbar-text pull-right">Signed in as <a href="{{ path('expense_showAll', {'page': 1}) }}" data-target="#myExpenseModal" data-toggle="modal" class="navbar-link"><i class="icon-user icon-white"></i>{{app.user.username }} </a> | <a href="{{ path('_my_logout') }}" class="navbar-link">Signout</a></p>
             {% else %}
 	            <form class="navbar-form pull-right" action="{{ path('_my_login_check') }}"  method="post" id="login">
 	              <input class="span2" type="text" placeholder="Username" id="username" name="_username">
@@ -24,3 +27,21 @@
         </div>
       </div>
 </div>
+
+
+<!-- Modal -->
+<div id="myExpenseModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 960px">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">All Expense</h3>
+  </div>
+  <div class="modal-body" >
+  		 
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+

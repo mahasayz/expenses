@@ -141,22 +141,14 @@ class ExpenseController extends Controller{
 	 * @Template()
 	 */
 	public function expenseListAction(Request $request, $page){
-		$em = $this->getDoctrine()->getManager();
+		
 		$loggedInUser = $this->getUser();
 		
-		$countryOptions = array();
-		foreach(Utils::getCountry() as $key => $value){
-			$countryOptions[$key] = $key . " ($value)";
-		}
+		$countryOptions = $this->getCountryOptions();
+		
 		
 		if($loggedInUser != null){
-			$dql = "Select  e from ExpenseStoreBundle:Expense e join e.user u where u.id=?1 order by e.created desc";
-			
-			$expenses = $em->createQuery($dql)
-								->setParameter(1, $loggedInUser->getId())
-								->setMaxResults(Utils::$paginationLimit)
-								->setFirstResult(($page -1) * Utils::$paginationLimit)
-								->getResult();
+			$expenses = $this->getExpenses($loggedInUser, $page);
 		}
 		
 		
@@ -166,6 +158,83 @@ class ExpenseController extends Controller{
 		);
 														
 	}
+	
+	/**
+	 * @Route("/expenseShowAll/{page}", requirements={"page" = "\d+"}, name="expense_showAll")
+	 * @Template()
+	 */
+	public function expenseShowAllAction(Request $request, $page){
+	
+		$loggedInUser = $this->getUser();
+	
+		$countryOptions = $this->getCountryOptions();
+	
+		$expenses = "";
+		if($loggedInUser != null){
+			$expenses = $this->getExpenses($loggedInUser, $page, 10);
+		}
+	
+	
+		return array(
+				"expenses" => $expenses,
+				"countryOptions" => $countryOptions,
+		);
+	
+	}
+	
+	/**
+	 * @Route("/expenseShowAllPartial/{page}", requirements={"page" = "\d+"}, name="expense_showAll_partial")
+	 */
+	public function expenseShowAllPartialAction(Request $request, $page){
+	
+		$loggedInUser = $this->getUser();
+	
+		$countryOptions = $this->getCountryOptions();
+	
+		if($loggedInUser != null){
+			$expenses = $this->getExpenses($loggedInUser, $page, 10);
+		}
+	
+	
+		return $this->render("ExpenseSiteBundle:Expense:expenseTemplate.html.twig",
+				array(
+						"expenses" => $expenses,
+						"countryOptions" => $countryOptions,
+						"nextPage" => $page + 1,
+				)
+					
+		);
+		
+	
+	}
+	
+	
+	private function getCountryOptions(){
+		$countryOptions = array();
+		foreach(Utils::getCountry() as $key => $value){
+			$countryOptions[$key] = $key . " ($value)";
+		}
+		return $countryOptions;
+	}
+	
+	private function getExpenses($loggedInUser, $page, $limit = null){
+		if($limit == null){
+			$limit = Utils::$paginationLimit;
+		}
+		$em = $this->getDoctrine()->getManager();
+		
+		$dql = "Select  e from ExpenseStoreBundle:Expense e join e.user u where u.id=?1 order by e.created desc";
+			
+		$expenses = $em->createQuery($dql)
+							->setParameter(1, $loggedInUser->getId())
+							->setMaxResults($limit)
+							->setFirstResult(($page -1) * $limit)
+							->getResult();
+		
+		return $expenses;
+	}
+	
+		
 	
 	/**
 	 * @Route("/currencyConverter", name="expense_currency_converter")

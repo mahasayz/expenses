@@ -7,6 +7,7 @@
 
     <script src="{{ asset('myjs/jquery.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('myjs/jquery.jscroll.min.js') }}" type="text/javascript"></script>
     <style type="text/css">
     </style>
     
@@ -16,10 +17,14 @@
 	<link rel="stylesheet" href="{{ asset('morris/lib/prettify.css') }}">
 	<link rel="stylesheet" href="{{ asset('morris/morris.css') }}">
 	
+	<script src="{{ asset('myjs/jquery.jscroll.min.js') }}" type="text/javascript"></script>
+	
 	<script type="text/javascript">
-	$(function(){
-		 $("[data-toggle='tooltip']").tooltip(); 
-	});
+		$(function(){
+			 $("[data-toggle='tooltip']").tooltip(); 
+	
+		});
+
 	</script>
 	
 </head>
@@ -130,6 +135,12 @@
 	
 	
 </div>
+
+
+
+
+
+
 
 </body>
 </html>
